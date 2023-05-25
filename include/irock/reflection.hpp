@@ -583,11 +583,11 @@ namespace irock::detail {
 }  // namespace irock::detail
 
 namespace irock {
-#ifndef REFLECTION
-#define REFLECTION(STRUCT_NAME, ...)                                    \
+ 
+#define ORMPP_REFLECTION(STRUCT_NAME, ...)                                    \
   MAKE_META_DATA(STRUCT_NAME, #STRUCT_NAME, GET_ARG_COUNT(__VA_ARGS__), \
                  __VA_ARGS__)
-#endif 
+ 
 
 #define REFLECTION_WITH_NAME(STRUCT_NAME, TABLE_NAME, ...)            \
   MAKE_META_DATA(STRUCT_NAME, TABLE_NAME, GET_ARG_COUNT(__VA_ARGS__), \

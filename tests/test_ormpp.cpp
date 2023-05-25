@@ -27,7 +27,7 @@ struct person {
   std::string name;
   int age;
 };
-REFLECTION(person, id, name, age)
+ORMPP_REFLECTION(person, id, name, age)
 
 struct student {
   int code;  // key
@@ -37,14 +37,14 @@ struct student {
   double dm;
   std::string classroom;
 };
-REFLECTION(student, code, name, sex, age, dm, classroom)
+ORMPP_REFLECTION(student, code, name, sex, age, dm, classroom)
 
 struct simple {
   int id;
   double code;
   int age;
 };
-REFLECTION(simple, id, code, age);
+ORMPP_REFLECTION(simple, id, code, age);
 
 // TEST_CASE(mysql_performance){
 //    dbng<mysql> mysql;
@@ -89,7 +89,7 @@ struct test_order {
   int id;
   std::string name;
 };
-REFLECTION(test_order, name, id);
+ORMPP_REFLECTION(test_order, name, id);
 
 TEST_CASE("random_reflection_order") {
 #ifdef ORMPP_ENABLE_MYSQL
@@ -132,7 +132,7 @@ struct dummy {
   int id;
   std::string name;
 };
-REFLECTION(dummy, id, name);
+ORMPP_REFLECTION(dummy, id, name);
 
 // TEST_CASE("mysql_exist_tb") {
 //   dbng<mysql> mysql;
@@ -842,7 +842,7 @@ struct image {
   ormpp::blob bin;
 };
 
-REFLECTION(image, id, bin);
+ORMPP_REFLECTION(image, id, bin);
 
 TEST_CASE("orm_mysql_blob") {
   dbng<mysql> mysql;
@@ -872,7 +872,7 @@ struct image_ex {
   std::string time;
 };
 
-REFLECTION(image_ex, id, bin, time);
+ORMPP_REFLECTION(image_ex, id, bin, time);
 
 TEST_CASE("orm_mysql_blob_tuple") {
   dbng<mysql> mysql;

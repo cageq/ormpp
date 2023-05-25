@@ -21,7 +21,7 @@ struct ormpp_cfg {
   int db_conn_num;
   int db_port;
 };
-REFLECTION(ormpp_cfg, db_ip, user_name, pwd, db_name, timeout, db_conn_num,
+ORMPP_REFLECTION(ormpp_cfg, db_ip, user_name, pwd, db_name, timeout, db_conn_num,
            db_port);
 
 /*

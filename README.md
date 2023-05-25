@@ -59,7 +59,7 @@ struct person {
   std::string name;
   std::optional<int> age; // 可以插入null值
 };
-REFLECTION(person, id, name, age)
+ORMPP_REFLECTION(person, id, name, age)
 // REFLECTION_WITH_NAME(person, "CUSTOM_TABLE_NAME", id, name, age)
 
 int main()
@@ -183,7 +183,7 @@ struct person {
   std::string name;
   std::optional<int> age; // 插入null值
 };
-REFLECTION(person, id, name, age)
+ORMPP_REFLECTION(person, id, name, age)
 // REFLECTION_WITH_NAME(person, "CUSTOM_TABLE_NAME", id, name, age)
 
 int main(){

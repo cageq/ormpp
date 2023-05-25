@@ -26,7 +26,7 @@ struct person {
   std::optional<int> age;
   std::optional<std::string> phone;
 };
-REFLECTION(person, id, name, age, phone)
+ORMPP_REFLECTION(person, id, name, age, phone)
 
 struct student {
   int id;
