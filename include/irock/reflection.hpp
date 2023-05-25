@@ -571,7 +571,7 @@ namespace irock::detail {
     return reflect_members{};                                                 \
   }
 
-#define MAKE_META_DATA(STRUCT_NAME, TABLE_NAME, N, ...)                  \
+#define ORMPP_MAKE_META_DATA(STRUCT_NAME, TABLE_NAME, N, ...)                  \
   constexpr inline std::array<std::string_view, N> arr_##STRUCT_NAME = { \
       MARCO_EXPAND(MACRO_CONCAT(CON_STR, N)(__VA_ARGS__))};              \
   constexpr inline std::string_view fields_##STRUCT_NAME = {             \
@@ -585,12 +585,12 @@ namespace irock::detail {
 namespace irock {
  
 #define ORMPP_REFLECTION(STRUCT_NAME, ...)                                    \
-  MAKE_META_DATA(STRUCT_NAME, #STRUCT_NAME, GET_ARG_COUNT(__VA_ARGS__), \
+  ORMPP_MAKE_META_DATA(STRUCT_NAME, #STRUCT_NAME, GET_ARG_COUNT(__VA_ARGS__), \
                  __VA_ARGS__)
  
 
 #define REFLECTION_WITH_NAME(STRUCT_NAME, TABLE_NAME, ...)            \
-  MAKE_META_DATA(STRUCT_NAME, TABLE_NAME, GET_ARG_COUNT(__VA_ARGS__), \
+  ORMPP_MAKE_META_DATA(STRUCT_NAME, TABLE_NAME, GET_ARG_COUNT(__VA_ARGS__), \
                  __VA_ARGS__)
 
 template <typename T>
