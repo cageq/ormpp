@@ -2,14 +2,14 @@
 // Created by Qiyu on 17-6-5.
 //
 
-#ifndef IROCK_JSON_HPP
-#define IROCK_JSON_HPP
+#ifndef SERIALIZE_JSON_HPP
+#define SERIALIZE_JSON_HPP
 #include <math.h>
 #include <string.h>
 
 #include "reflection.hpp"
 
-namespace irock {
+namespace iguana {
 namespace json {
 template <typename InputIt, typename T, typename F>
 T join(InputIt first, InputIt last, const T &delim, const F &f) {
@@ -59,14 +59,14 @@ render_json_value(Stream &ss, T value) {
 template <typename Stream>
 void render_json_value(Stream &ss, int64_t value) {
   char temp[65];
-  auto p = irock_xtoa(value, temp, 10, 1);
+  auto p = xtoa(value, temp, 10, 1);
   ss.write(temp, p - temp);
 }
 
 template <typename Stream>
 void render_json_value(Stream &ss, uint64_t value) {
   char temp[65];
-  auto p = irock_xtoa(value, temp, 10, 0);
+  auto p = xtoa(value, temp, 10, 0);
   ss.write(temp, p - temp);
 }
 
@@ -1206,7 +1206,7 @@ constexpr void do_read0(reader_t &rd, T &&t) {
     auto &tk = rd.peek();
 
     std::string_view s(tk.str.str, tk.str.len);
-    index = irock::get_index<T>(s);
+    index = iguana::get_index<T>(s);
     if (index == Size) {
       if (tk.type == token::t_end || tk.type == token::t_ctrl)
         break;

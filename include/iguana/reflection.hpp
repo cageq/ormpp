@@ -2,8 +2,8 @@
 // Created by Qiyu on 17-6-5.
 //
 
-#ifndef IROCK_REFLECTION_HPP
-#define IROCK_REFLECTION_HPP
+#ifndef IGUANA_REFLECTION_HPP
+#define IGUANA_REFLECTION_HPP
 #include <array>
 #include <functional>
 #include <iomanip>
@@ -20,7 +20,7 @@
 #include "detail/string_stream.hpp"
 #include "detail/traits.hpp"
 
-namespace irock::detail {
+namespace iguana::detail {
 /******************************************/
 /* arg list expand macro, now support 120 args */
 #define MAKE_ARG_LIST_1(op, arg, ...) op(arg)
@@ -571,7 +571,7 @@ namespace irock::detail {
     return reflect_members{};                                                 \
   }
 
-#define ORMPP_MAKE_META_DATA(STRUCT_NAME, TABLE_NAME, N, ...)                  \
+#define MAKE_META_DATA(STRUCT_NAME, TABLE_NAME, N, ...)                  \
   constexpr inline std::array<std::string_view, N> arr_##STRUCT_NAME = { \
       MARCO_EXPAND(MACRO_CONCAT(CON_STR, N)(__VA_ARGS__))};              \
   constexpr inline std::string_view fields_##STRUCT_NAME = {             \
@@ -580,17 +580,15 @@ namespace irock::detail {
   MAKE_META_DATA_IMPL(STRUCT_NAME,                                       \
                       MAKE_ARG_LIST(N, &STRUCT_NAME::FIELD, __VA_ARGS__))
 
-}  // namespace irock::detail
+}  // namespace iguana::detail
 
-namespace irock {
- 
-#define ORMPP_REFLECTION(STRUCT_NAME, ...)                                    \
-  ORMPP_MAKE_META_DATA(STRUCT_NAME, #STRUCT_NAME, GET_ARG_COUNT(__VA_ARGS__), \
+namespace iguana {
+#define REFLECTION(STRUCT_NAME, ...)                                    \
+  MAKE_META_DATA(STRUCT_NAME, #STRUCT_NAME, GET_ARG_COUNT(__VA_ARGS__), \
                  __VA_ARGS__)
- 
 
 #define REFLECTION_WITH_NAME(STRUCT_NAME, TABLE_NAME, ...)            \
-  ORMPP_MAKE_META_DATA(STRUCT_NAME, TABLE_NAME, GET_ARG_COUNT(__VA_ARGS__), \
+  MAKE_META_DATA(STRUCT_NAME, TABLE_NAME, GET_ARG_COUNT(__VA_ARGS__), \
                  __VA_ARGS__)
 
 template <typename T>
@@ -737,4 +735,4 @@ constexpr std::enable_if_t<is_tuple<std::decay_t<T>>::value> for_each(T&& t,
            std::make_index_sequence<SIZE>{});
 }
 }  // namespace iguana
-#endif  // IROCK_REFLECTION_HPP
+#endif  // IGUANA_REFLECTION_HPP

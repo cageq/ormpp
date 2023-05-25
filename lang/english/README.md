@@ -48,7 +48,7 @@ This example demonstrates how to use ormpp to add, delete, update datatable and 
 		std::string name;
 		int age;
 	};
-	ORMPP_REFLECTION(person, id, name, age)
+	REFLECTION(person, id, name, age)
 	
 	int main()
 	{
@@ -170,7 +170,7 @@ Define the business entity (corresponding to the data table) in entity.hpp, and 
 		std::string name;
 		int age;
 	};
-	ORMPP_REFLECTION(person, id, name, age)
+	REFLECTION(person, id, name, age)
 
 	int main(){
 

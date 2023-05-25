@@ -22,8 +22,8 @@
 // SOFTWARE.
 //===----------------------------------------------------------------------===//
 
-#ifndef IROCK_DEC_ITOA_IMPL_H
-#define IROCK_DEC_ITOA_IMPL_H
+#ifndef DEC_ITOA_IMPL_H
+#define DEC_ITOA_IMPL_H
 
 #include <array>
 #include <cstddef>
@@ -31,7 +31,7 @@
 #include <cstring>  // memcpy
 #include <type_traits>
 
-namespace irock::dec_ {
+namespace dec_ {
 
 // Using a lookup table to convert binary numbers from 0 to 99
 // into ascii characters as described by Andrei Alexandrescu in
@@ -263,15 +263,15 @@ struct convert {
     return p;
   }
 };
-}  // namespace irock::dec_
+}  // namespace dec_
 
 // Programming interface: itoa_fwd, itoa_rev
 template <typename I>
-char* irock_itoa_fwd(I i, char* p) {
-  return irock::dec_::convert<irock::dec_::Fwd>::itoa(i, p);
+char* itoa_fwd(I i, char* p) {
+  return dec_::convert<dec_::Fwd>::itoa(i, p);
 }
 
-inline char* irock_xtoa(long long sval, char* str, int radix, int signedp) {
+inline char* xtoa(long long sval, char* str, int radix, int signedp) {
   unsigned long long uval;
   unsigned int uradix = radix;
   char* sp = str;
@@ -314,8 +314,8 @@ inline char* irock_xtoa(long long sval, char* str, int radix, int signedp) {
 }
 
 template <typename I>
-char* irock_itoa_rev(I i, char* p) {
-  return irock::dec_::convert<irock::dec_::Rev>::itoa(i, p);
+char* itoa_rev(I i, char* p) {
+  return dec_::convert<dec_::Rev>::itoa(i, p);
 }
 
 #endif  // DEC_ITOA_IMPL_H

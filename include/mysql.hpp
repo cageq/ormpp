@@ -150,10 +150,10 @@ class mysql {
 
   // for tuple and string with args...
   template <typename T, typename Arg, typename... Args>
-  std::enable_if_t<!irock::is_reflection_v<T>, std::vector<T>> query(
+  std::enable_if_t<!iguana::is_reflection_v<T>, std::vector<T>> query(
       const Arg &s, Args &&...args) {
     reset_error();
-    static_assert(irock::is_tuple<T>::value);
+    static_assert(iguana::is_tuple<T>::value);
     constexpr auto SIZE = std::tuple_size_v<T>;
 
     std::string sql = s;
@@ -191,7 +191,7 @@ class mysql {
     T tp{};
 
     size_t index = 0;
-    irock::for_each(
+    iguana::for_each(
         tp,
         [&param_binds, &mp, &index](auto &item, auto /*I*/) {
           using U = std::remove_reference_t<decltype(item)>;
@@ -209,8 +209,8 @@ class mysql {
             param_binds[index].buffer_length = 65536;
             index++;
           }
-          else if constexpr (irock::is_reflection_v<U>) {
-            irock::for_each(item, [&param_binds, &mp, &item, &index](
+          else if constexpr (iguana::is_reflection_v<U>) {
+            iguana::for_each(item, [&param_binds, &mp, &item, &index](
                                        auto &ele, auto /*i*/) {
               using V =
                   std::remove_reference_t<decltype(std::declval<U>().*ele)>;
@@ -283,7 +283,7 @@ class mysql {
     while (mysql_stmt_fetch(stmt_) == 0) {
       auto column = 0;
       auto it = mp.begin();
-      irock::for_each(
+      iguana::for_each(
           tp,
           [&mp, &it, &column, this](auto &item, auto /*i*/) {
             using W = std::remove_reference_t<decltype(item)>;
@@ -298,8 +298,8 @@ class mysql {
               memcpy(item, &(*it)[0], sizeof(W));
               it++;
             }
-            else if constexpr (irock::is_reflection_v<W>) {
-              irock::for_each(item, [&it, &item, &column, this](auto ele,
+            else if constexpr (iguana::is_reflection_v<W>) {
+              iguana::for_each(item, [&it, &item, &column, this](auto ele,
                                                                  auto /*i*/) {
                 using V =
                     std::remove_reference_t<decltype(std::declval<W>().*ele)>;
@@ -345,14 +345,14 @@ class mysql {
 
   // if there is a sql error, how to tell the user? throw exception?
   template <typename T, typename... Args>
-  std::enable_if_t<irock::is_reflection_v<T>, std::vector<T>> query(
+  std::enable_if_t<iguana::is_reflection_v<T>, std::vector<T>> query(
       Args &&...args) {
     reset_error();
     std::string sql = generate_query_sql<T>(args...);
 #if ORMPP_ENABLE_LOG
     std::cout << sql << std::endl;
 #endif
-    constexpr auto SIZE = irock::get_value<T>();
+    constexpr auto SIZE = iguana::get_value<T>();
 
     stmt_ = mysql_stmt_init(con_);
     if (!stmt_) {
@@ -373,7 +373,7 @@ class mysql {
     std::vector<T> v;
     T t{};
     int index = 0;
-    irock::for_each(t, [&](auto item, auto i) {
+    iguana::for_each(t, [&](auto item, auto i) {
       constexpr auto Idx = decltype(i)::value;
       using U = std::remove_reference_t<decltype(std::declval<T>().*item)>;
       if constexpr (std::is_arithmetic_v<U>) {
@@ -426,7 +426,7 @@ class mysql {
 
     while (mysql_stmt_fetch(stmt_) == 0) {
       auto column = 0;
-      irock::for_each(t, [&mp, &t, &column, this](auto item, auto i) {
+      iguana::for_each(t, [&mp, &t, &column, this](auto item, auto i) {
         using U = std::remove_reference_t<decltype(std::declval<T>().*item)>;
         if constexpr (std::is_same_v<std::string, U>) {
           auto &vec = mp[decltype(i)::value];
@@ -448,7 +448,7 @@ class mysql {
       }
 
       v.push_back(std::move(t));
-      irock::for_each(t, [&mp, &t](auto item, auto /*i*/) {
+      iguana::for_each(t, [&mp, &t](auto item, auto /*i*/) {
         using U = std::remove_reference_t<decltype(std::declval<T>().*item)>;
         if constexpr (std::is_arithmetic_v<U>) {
           memset(&(t.*item), 0, sizeof(U));
@@ -527,7 +527,7 @@ class mysql {
     auto name = get_name<T>();
     std::string sql =
         std::string("CREATE TABLE IF NOT EXISTS ") + name.data() + "(";
-    auto arr = irock::get_array<T>();
+    auto arr = iguana::get_array<T>();
     constexpr auto SIZE = sizeof...(Args);
     auto_key_map_[name.data()] = "";
 
@@ -536,8 +536,8 @@ class mysql {
     if constexpr (SIZE > 0) {
       // using U = std::tuple<std::decay_t <Args>...>;//the code can't compile
       // in vs
-      static_assert(!(irock::has_type<ormpp_key, U>::value &&
-                      irock::has_type<ormpp_auto_key, U>::value),
+      static_assert(!(iguana::has_type<ormpp_key, U>::value &&
+                      iguana::has_type<ormpp_auto_key, U>::value),
                     "should only one key");
     }
     auto tp = sort_tuple(std::make_tuple(std::forward<Args>(args)...));
@@ -653,10 +653,10 @@ class mysql {
     auto it = auto_key_map_.find(get_name<T>());
     std::string auto_key = (it == auto_key_map_.end()) ? "" : it->second;
 
-    irock::for_each(
+    iguana::for_each(
         t, [&t, &param_binds, &auto_key, this](const auto &v, auto /*i*/) {
           /*if (!auto_key.empty() && auto_key ==
-             irock::get_name<T>(decltype(i)::value).data()) return;*/
+             iguana::get_name<T>(decltype(i)::value).data()) return;*/
 
           set_param_bind(param_binds, t.*v);
         });
