@@ -9,7 +9,7 @@
 #include <string>
 #include <string_view>
 
-#include "iguana/json.hpp"
+#include "irock/json.hpp"
 
 namespace ormpp {
 struct ormpp_cfg {
@@ -46,9 +46,9 @@ class config_manager {
 
     T val{};
     bool has_key = false;
-    iguana::for_each(
+    irock::for_each(
         cfg, [key, &val, &cfg, &has_key](const auto &item, auto I) {
-          if (key == iguana::get_name<ormpp_cfg>(decltype(I)::value)) {
+          if (key == irock::get_name<ormpp_cfg>(decltype(I)::value)) {
             assign(val, cfg.*item);
             has_key = true;
           }
@@ -71,8 +71,8 @@ class config_manager {
     }
 
     bool has_key = false;
-    iguana::for_each(cfg, [key, &val, &cfg, &has_key](auto &item, auto I) {
-      if (key == iguana::get_name<ormpp_cfg>(decltype(I)::value)) {
+    irock::for_each(cfg, [key, &val, &cfg, &has_key](auto &item, auto I) {
+      if (key == irock::get_name<ormpp_cfg>(decltype(I)::value)) {
         assign(cfg.*item, val);
         has_key = true;
       }
@@ -99,7 +99,7 @@ class config_manager {
 
     in.read(str.data(), len);
 
-    bool r = iguana::json::from_json(t, str.data(), len);
+    bool r = irock::json::from_json(t, str.data(), len);
     if (!r) {
       return false;
     }
@@ -116,8 +116,8 @@ class config_manager {
 
   template <typename T>
   inline static bool to_file(T &t, std::string_view file_path) {
-    iguana::string_stream ss;
-    iguana::json::to_json(ss, t);
+    irock::string_stream ss;
+    irock::json::to_json(ss, t);
     std::ofstream out(file_path.data(), std::ios::binary);
     if (!out.is_open()) {
       return false;

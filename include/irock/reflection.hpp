@@ -20,7 +20,7 @@
 #include "detail/string_stream.hpp"
 #include "detail/traits.hpp"
 
-namespace iguana::detail {
+namespace irock::detail {
 /******************************************/
 /* arg list expand macro, now support 120 args */
 #define MAKE_ARG_LIST_1(op, arg, ...) op(arg)
@@ -580,9 +580,9 @@ namespace iguana::detail {
   MAKE_META_DATA_IMPL(STRUCT_NAME,                                       \
                       MAKE_ARG_LIST(N, &STRUCT_NAME::FIELD, __VA_ARGS__))
 
-}  // namespace iguana::detail
+}  // namespace irock::detail
 
-namespace iguana {
+namespace irock {
 #define REFLECTION(STRUCT_NAME, ...)                                    \
   MAKE_META_DATA(STRUCT_NAME, #STRUCT_NAME, GET_ARG_COUNT(__VA_ARGS__), \
                  __VA_ARGS__)

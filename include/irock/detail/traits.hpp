@@ -2,8 +2,8 @@
 // Created by QY on 2017-01-05.
 //
 
-#ifndef SERIALIZE_TRAITS_HPP
-#define SERIALIZE_TRAITS_HPP
+#ifndef IROCK_TRAITS_HPP
+#define IROCK_TRAITS_HPP
 
 #include <deque>
 #include <list>
@@ -13,7 +13,7 @@
 #include <unordered_map>
 #include <vector>
 
-namespace iguana {
+namespace irock {
 template <class T>
 struct is_signed_intergral_like
     : std::integral_constant<bool, (std::is_integral<T>::value) &&
@@ -67,5 +67,5 @@ struct has_type<T, std::tuple<Us...>>
 template <typename T>
 inline constexpr bool is_int64_v =
     std::is_same_v<T, int64_t> || std::is_same_v<T, uint64_t>;
-}  // namespace iguana
-#endif  // SERIALIZE_TRAITS_HPP
+}  // namespace irock
+#endif  // IROCK_TRAITS_HPP

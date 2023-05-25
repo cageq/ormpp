@@ -2,8 +2,8 @@
 // Created by qiyu on 17-6-6.
 //
 
-#ifndef IGUANA_XML17_HPP
-#define IGUANA_XML17_HPP
+#ifndef IROCK_XML17_HPP
+#define IROCK_XML17_HPP
 #include <string.h>
 
 #include <algorithm>
@@ -12,19 +12,19 @@
 
 #include "reflection.hpp"
 
-#define IGUANA_XML_READER_CHECK_FORWARD \
+#define IROCK_XML_READER_CHECK_FORWARD \
   if (l > length)                       \
     return 0;                           \
   work_ptr += l;                        \
   length -= l
-#define IGUANA_XML_READER_CHECK_FORWARD_CHAR \
+#define IROCK_XML_READER_CHECK_FORWARD_CHAR \
   if (length < 1)                            \
     return 0;                                \
   work_ptr += 1;                             \
   length -= 1
-#define IGUANA_XML_HEADER "<?xml version = \"1.0\" encoding=\"UTF-8\">"
+#define IROCK_XML_HEADER "<?xml version = \"1.0\" encoding=\"UTF-8\">"
 
-namespace iguana::xml {
+namespace irock::xml {
 namespace detail {
 struct char_const {
   static constexpr char angle_bracket = 0x3c;       // '<'
@@ -153,24 +153,24 @@ class xml_reader_t {
     auto length = length_;
 
     auto l = detail::ignore_blank_ctrl(work_ptr, length);
-    IGUANA_XML_READER_CHECK_FORWARD;
+    IROCK_XML_READER_CHECK_FORWARD;
 
     if (!detail::expected_char(work_ptr, detail::char_const::angle_bracket))
       return false;
-    IGUANA_XML_READER_CHECK_FORWARD_CHAR;
+    IROCK_XML_READER_CHECK_FORWARD_CHAR;
 
     if (!detail::expected_char(work_ptr, detail::char_const::question_mark))
       return false;
-    IGUANA_XML_READER_CHECK_FORWARD_CHAR;
+    IROCK_XML_READER_CHECK_FORWARD_CHAR;
 
     l = detail::get_token(work_ptr, length);
     if (!detail::expected_token(work_ptr, l, "xml", 3))
       return false;
-    IGUANA_XML_READER_CHECK_FORWARD;
+    IROCK_XML_READER_CHECK_FORWARD;
 
     l = detail::forward_after(work_ptr, length,
                               detail::char_const::anti_angle_bracket);
-    IGUANA_XML_READER_CHECK_FORWARD;
+    IROCK_XML_READER_CHECK_FORWARD;
 
     buffer_ = work_ptr;
     length_ = length;
@@ -183,20 +183,20 @@ class xml_reader_t {
     auto length = length_;
 
     auto l = detail::ignore_blank_ctrl(work_ptr, length);
-    IGUANA_XML_READER_CHECK_FORWARD;
+    IROCK_XML_READER_CHECK_FORWARD;
 
     if (!detail::expected_char(work_ptr, detail::char_const::angle_bracket))
       return object_status::ILLEGAL;
-    IGUANA_XML_READER_CHECK_FORWARD_CHAR;
+    IROCK_XML_READER_CHECK_FORWARD_CHAR;
 
     l = detail::get_token(work_ptr, length);
     if (!detail::expected_token(work_ptr, l, expected, std::strlen(expected)))
       return false;
-    IGUANA_XML_READER_CHECK_FORWARD;
+    IROCK_XML_READER_CHECK_FORWARD;
 
     l = detail::forward_after(work_ptr, length,
                               detail::char_const::anti_angle_bracket);
-    IGUANA_XML_READER_CHECK_FORWARD;
+    IROCK_XML_READER_CHECK_FORWARD;
 
     buffer_ = work_ptr;
     length_ = length;
@@ -212,7 +212,7 @@ class xml_reader_t {
     auto length = length_;
 
     auto l = detail::ignore_blank_ctrl(work_ptr, length);
-    IGUANA_XML_READER_CHECK_FORWARD;
+    IROCK_XML_READER_CHECK_FORWARD;
 
     l = detail::forward_until(work_ptr, length,
                               detail::char_const::angle_bracket);
@@ -221,7 +221,7 @@ class xml_reader_t {
     } catch (...) {
       return false;
     }
-    IGUANA_XML_READER_CHECK_FORWARD;
+    IROCK_XML_READER_CHECK_FORWARD;
 
     buffer_ = work_ptr;
     length_ = length;
@@ -234,25 +234,25 @@ class xml_reader_t {
     auto length = length_;
 
     auto l = detail::ignore_blank_ctrl(work_ptr, length);
-    IGUANA_XML_READER_CHECK_FORWARD;
+    IROCK_XML_READER_CHECK_FORWARD;
 
     if (!detail::expected_char(work_ptr, detail::char_const::angle_bracket))
       return false;
-    IGUANA_XML_READER_CHECK_FORWARD_CHAR;
+    IROCK_XML_READER_CHECK_FORWARD_CHAR;
 
     if (!detail::expected_char(work_ptr, detail::char_const::slash))
       return false;
-    IGUANA_XML_READER_CHECK_FORWARD_CHAR;
+    IROCK_XML_READER_CHECK_FORWARD_CHAR;
 
     l = detail::get_token(work_ptr, length);
     if (!detail::expected_token(work_ptr, l, expected, std::strlen(expected)))
       return false;
-    IGUANA_XML_READER_CHECK_FORWARD;
+    IROCK_XML_READER_CHECK_FORWARD;
 
     if (!detail::expected_char(work_ptr,
                                detail::char_const::anti_angle_bracket))
       return false;
-    IGUANA_XML_READER_CHECK_FORWARD_CHAR;
+    IROCK_XML_READER_CHECK_FORWARD_CHAR;
 
     buffer_ = work_ptr;
     length_ = length;
@@ -260,7 +260,7 @@ class xml_reader_t {
   }
 
   static const size_t xml_header_length =
-      detail::array_size<decltype(IGUANA_XML_HEADER)>::value - 1;
+      detail::array_size<decltype(IROCK_XML_HEADER)>::value - 1;
 
  private:
   char const *buffer_;
@@ -355,7 +355,7 @@ template <typename Stream, typename T,
           typename = std::enable_if_t<is_reflection<T>::value>>
 void to_xml(Stream &s, T &&t) {
   // render_head(s, "xml");
-  s.append(IGUANA_XML_HEADER, xml_reader_t::xml_header_length);
+  s.append(IROCK_XML_HEADER, xml_reader_t::xml_header_length);
   to_xml_impl(s, std::forward<T>(t));
 }
 
@@ -392,4 +392,4 @@ void from_xml(T &&t, const char *buf, size_t len = -1) {
   }
 }
 }  // namespace iguana::xml
-#endif  // IGUANA_XML17_HPP
+#endif  // IROCK_XML17_HPP

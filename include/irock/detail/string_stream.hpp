@@ -1,6 +1,6 @@
 #pragma once
 
-namespace iguana {
+namespace irock {
 template <typename alloc_ty>
 struct basic_string_stream {
  private:
@@ -160,4 +160,4 @@ struct basic_string_stream {
 };
 
 typedef basic_string_stream<std::allocator<char>> string_stream;
-}  // namespace iguana
+}  // namespace irock

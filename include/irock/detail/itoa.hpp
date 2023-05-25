@@ -22,8 +22,8 @@
 // SOFTWARE.
 //===----------------------------------------------------------------------===//
 
-#ifndef DEC_ITOA_IMPL_H
-#define DEC_ITOA_IMPL_H
+#ifndef IROCK_DEC_ITOA_IMPL_H
+#define IROCK_DEC_ITOA_IMPL_H
 
 #include <array>
 #include <cstddef>
