@@ -59,14 +59,14 @@ render_json_value(Stream &ss, T value) {
 template <typename Stream>
 void render_json_value(Stream &ss, int64_t value) {
   char temp[65];
-  auto p = xtoa(value, temp, 10, 1);
+  auto p = irock_xtoa(value, temp, 10, 1);
   ss.write(temp, p - temp);
 }
 
 template <typename Stream>
 void render_json_value(Stream &ss, uint64_t value) {
   char temp[65];
-  auto p = xtoa(value, temp, 10, 0);
+  auto p = irock_xtoa(value, temp, 10, 0);
   ss.write(temp, p - temp);
 }
 
