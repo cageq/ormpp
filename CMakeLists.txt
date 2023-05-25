@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.15)
 project(ormpp)
 
+
+include_directories(./thirdparty/iguana/third_party/frozen/include/)
 include(cmake/build.cmake)
 include(cmake/develop.cmake)
 include(cmake/platform.cmake)
